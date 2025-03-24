@@ -1,7 +1,7 @@
-package com.baeldung.persistence.repository.impl;
+package com.baeldung.ls.persistence.repository.impl;
 
-import com.baeldung.persistence.model.Project;
-import com.baeldung.persistence.repository.IProjectRepository;
+import com.baeldung.ls.persistence.model.Project;
+import com.baeldung.ls.persistence.repository.IProjectRepository;
 
 import java.util.ArrayList;
 import java.util.List;

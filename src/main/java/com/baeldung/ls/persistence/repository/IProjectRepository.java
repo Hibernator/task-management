@@ -1,6 +1,6 @@
-package com.baeldung.persistence.repository;
+package com.baeldung.ls.persistence.repository;
 
-import com.baeldung.persistence.model.Project;
+import com.baeldung.ls.persistence.model.Project;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package com.baeldung.taskmanagement;
+package com.baeldung.ls;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

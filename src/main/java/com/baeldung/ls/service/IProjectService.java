@@ -1,6 +1,6 @@
-package com.baeldung.service;
+package com.baeldung.ls.service;
 
-import com.baeldung.persistence.model.Project;
+import com.baeldung.ls.persistence.model.Project;
 
 import java.util.Optional;
 

@@ -1,8 +1,8 @@
-package com.baeldung.service.impl;
+package com.baeldung.ls.service.impl;
 
-import com.baeldung.persistence.model.Project;
-import com.baeldung.persistence.repository.IProjectRepository;
-import com.baeldung.service.IProjectService;
+import com.baeldung.ls.persistence.model.Project;
+import com.baeldung.ls.persistence.repository.IProjectRepository;
+import com.baeldung.ls.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;

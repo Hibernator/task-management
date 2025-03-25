@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PersistenceConfig {
 
-    @Bean
-    public ProjectRepositoryImpl projectRepository() {
-        return new ProjectRepositoryImpl();
-    }
+//    @Bean
+//    public ProjectRepositoryImpl projectRepository() {
+//        return new ProjectRepositoryImpl();
+//    }
 }

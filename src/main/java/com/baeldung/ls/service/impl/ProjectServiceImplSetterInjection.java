@@ -5,10 +5,12 @@ import com.baeldung.ls.persistence.repository.IProjectRepository;
 import com.baeldung.ls.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Lazy
 @Service
 public class ProjectServiceImplSetterInjection implements IProjectService {
 
@@ -25,7 +27,7 @@ public class ProjectServiceImplSetterInjection implements IProjectService {
     }
 
     @Autowired
-    @Qualifier("projectRepositoryImpl")
+    @Qualifier("projectRepository")
     public void setProjectRepository(IProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }

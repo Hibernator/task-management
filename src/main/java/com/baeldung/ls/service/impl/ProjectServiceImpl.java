@@ -10,19 +10,22 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Primary
 public class ProjectServiceImpl implements IProjectService, ApplicationContextAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProjectServiceImpl.class);
 
     private IProjectRepository projectRepository;
 
-    public ProjectServiceImpl(@Qualifier("projectRepository") IProjectRepository projectRepository,
-                              @Qualifier("projectRepository") IProjectRepository projectRepository2) {
+    public ProjectServiceImpl(
+            @Qualifier("projectRepository") IProjectRepository projectRepository,
+            @Qualifier("projectRepository") IProjectRepository projectRepository2) {
         this.projectRepository = projectRepository;
     }
 

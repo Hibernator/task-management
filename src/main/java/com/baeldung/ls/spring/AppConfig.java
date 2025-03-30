@@ -1,6 +1,5 @@
 package com.baeldung.ls.spring;
 
-import com.baeldung.ls.persistence.repository.impl.ProjectRepositoryImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -8,6 +7,12 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import({PersistenceConfig.class})
 public class AppConfig {
+
+    // Static so that it's created really early in the container lifecycle
+    @Bean
+    public static CustomBeanPostProcessor customBeanPostProcessor() {
+        return new CustomBeanPostProcessor();
+    }
 
     @Bean
     public BeanA beanA() {
@@ -23,4 +28,5 @@ public class AppConfig {
     public BeanC beanC() {
         return new BeanC();
     }
+
 }

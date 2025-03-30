@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class Project {
     private Long id;
+    private String internalId;
     private String name;
     private LocalDate dateCreated;
 
@@ -44,11 +45,21 @@ public class Project {
         this.dateCreated = dateCreated;
     }
 
+    public String getInternalId() {
+        return internalId;
+    }
+
+    public void setInternalId(String internalId) {
+        this.internalId = internalId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Project project = (Project) o;
-        return Objects.equals(id, project.id) && Objects.equals(name, project.name) && Objects.equals(dateCreated, project.dateCreated);
+        return Objects.equals(id, project.id)
+                && Objects.equals(name, project.name)
+                && Objects.equals(dateCreated, project.dateCreated);
     }
 
     @Override
@@ -58,10 +69,6 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", dateCreated=" + dateCreated +
-                '}';
+        return "Project{" + "id=" + id + ", name='" + name + '\'' + ", dateCreated=" + dateCreated + '}';
     }
 }

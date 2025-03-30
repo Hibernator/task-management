@@ -20,7 +20,7 @@ public class ProjectServiceInjectImpl implements IProjectService {
 
     // Can also be used on field and method
     @Inject
-    @Named("projectRepository")
+    @Named("projectRepositoryImpl")
     public ProjectServiceInjectImpl(IProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
         LOG.info("Wired projectRepository instance {}", projectRepository);

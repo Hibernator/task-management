@@ -27,7 +27,7 @@ public class ProjectServiceResourceImpl implements IProjectService {
         return projectRepository.save(project);
     }
 
-    @Resource(name = "projectRepository")
+    @Resource(name = "projectRepositoryImpl")
     public void setProjectRepository(IProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
         LOG.info("Wired projectRepository instance {}", projectRepository);

@@ -13,7 +13,7 @@ import java.util.Optional;
 public class ProjectServiceImplFieldInjection implements IProjectService {
 
     @Autowired
-    @Qualifier("projectRepository")
+    @Qualifier("projectRepositoryImpl")
     private IProjectRepository projectRepository;
 
     @Override
@@ -25,5 +25,4 @@ public class ProjectServiceImplFieldInjection implements IProjectService {
     public Project save(Project project) {
         return projectRepository.save(project);
     }
-
 }

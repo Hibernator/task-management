@@ -24,8 +24,8 @@ public class ProjectServiceImpl implements IProjectService, ApplicationContextAw
     private IProjectRepository projectRepository;
 
     public ProjectServiceImpl(
-            @Qualifier("projectRepository") IProjectRepository projectRepository,
-            @Qualifier("projectRepository") IProjectRepository projectRepository2) {
+            @Qualifier("projectRepositoryImpl") IProjectRepository projectRepository,
+            @Qualifier("projectRepository2") IProjectRepository projectRepository2) {
         this.projectRepository = projectRepository;
     }
 

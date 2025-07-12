@@ -25,6 +25,7 @@ public class LsApplication {
 
         // Not associated with the main app
         // Higher-level beans have to be scanned later
+        System.setProperty("spring.profiles.active", "dev");
         AnnotationConfigApplicationContext differentContext = new AnnotationConfigApplicationContext(
                 "com.baeldung.ls.persistence.repository", "com.baeldung.ls.spring");
         differentContext.scan("com.baeldung.ls.service");

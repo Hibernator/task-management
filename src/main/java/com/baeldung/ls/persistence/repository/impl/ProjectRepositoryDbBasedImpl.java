@@ -16,9 +16,9 @@ import java.util.Optional;
 
 @Repository
 @PropertySource("classpath:application.properties")
-@Profile("dev")
-public class ProjectRepositoryImpl implements IProjectRepository {
-    public static final Logger LOGGER = LoggerFactory.getLogger(ProjectRepositoryImpl.class);
+@Profile("prod")
+public class ProjectRepositoryDbBasedImpl implements IProjectRepository {
+    public static final Logger LOGGER = LoggerFactory.getLogger(ProjectRepositoryDbBasedImpl.class);
 
     private final String prefix;
 
@@ -26,7 +26,7 @@ public class ProjectRepositoryImpl implements IProjectRepository {
 
     private final List<Project> projects = new ArrayList<>();
 
-    public ProjectRepositoryImpl(
+    public ProjectRepositoryDbBasedImpl(
             @Value("${project.prefix:PRO}") String prefix, @Value("${project.suffix}") Integer suffix) {
         super();
         this.prefix = prefix;

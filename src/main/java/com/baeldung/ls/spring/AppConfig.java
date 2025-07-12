@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
 @Configuration
@@ -25,6 +26,7 @@ public class AppConfig {
     }
 
     @Bean
+    @Profile("dev")
     public BeanA beanA() {
         return new BeanA();
     }
@@ -42,5 +44,6 @@ public class AppConfig {
     @PostConstruct
     private void init() {
         LOG.info("Project suffix: {}", environment.getProperty("project.suffix"));
+        LOG.info("Active profiles: {}", environment.getProperty("spring.profiles.active"));
     }
 }

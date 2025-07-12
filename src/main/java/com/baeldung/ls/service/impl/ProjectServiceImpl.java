@@ -31,11 +31,13 @@ public class ProjectServiceImpl implements IProjectService, ApplicationContextAw
 
     @Override
     public Optional<Project> findById(Long id) {
+        LOG.debug("Project Service >> Finding Project by Id {}", id);
         return projectRepository.findById(id);
     }
 
     @Override
     public Project save(Project project) {
+        LOG.debug("Project Service >> Saving Project {}", project);
         return projectRepository.save(project);
     }
 

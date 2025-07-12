@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @SpringBootApplication(scanBasePackages = "com.baeldung.ls")
 public class LsApplication {
@@ -44,5 +45,7 @@ public class LsApplication {
     @PostConstruct
     public void init() {
         projectService.save(new Project(1L, "My First Project", LocalDate.now()));
+        Optional<Project> project = projectService.findById(1L);
+        project.ifPresent(System.out::println);
     }
 }

@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -20,6 +21,9 @@ public class LsApplication {
 
     @Autowired
     IProjectService projectService;
+
+    @Value("${additional.info}")
+    private String additionalInfo;
 
     public static void main(String[] args) {
         SpringApplication.run(LsApplication.class, args);
@@ -47,5 +51,7 @@ public class LsApplication {
         projectService.save(new Project(1L, "My First Project", LocalDate.now()));
         Optional<Project> project = projectService.findById(1L);
         project.ifPresent(System.out::println);
+
+        LOG.info("Additional info: {}", additionalInfo);
     }
 }

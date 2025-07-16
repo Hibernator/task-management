@@ -1,5 +1,6 @@
 package com.baeldung.ls.spring;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,12 @@ public class AppConfig {
     @Bean(destroyMethod = "destroy")
     public BeanC beanC() {
         return new BeanC();
+    }
+
+    // Thanks to this, the default ObjectMapper from JacksonAutoConfiguration won't be created
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 
     @PostConstruct

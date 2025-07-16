@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -15,7 +16,8 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @SpringBootApplication(scanBasePackages = "com.baeldung.ls")
-public class LsApplication {
+public class LsApplication implements CommandLineRunner {
+    // CommandLineRunner is used to execute code after the application context is loaded
 
     private static final Logger LOG = LoggerFactory.getLogger(LsApplication.class);
 
@@ -53,5 +55,12 @@ public class LsApplication {
         project.ifPresent(System.out::println);
 
         LOG.info("Additional info: {}", additionalInfo);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        projectService.save(new Project(1L, "Project 1", LocalDate.now()));
+        Optional<Project> project = projectService.findById(1L);
+        LOG.info("Project {}", project.toString());
     }
 }

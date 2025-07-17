@@ -1,0 +1,47 @@
+package com.baeldung.ls;
+
+import com.baeldung.ls.persistence.model.ProjectInMemory;
+import com.baeldung.ls.persistence.repository.IProjectRepositoryInMemory;
+import com.baeldung.ls.service.impl.ProjectServiceInMemoryImpl;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+
+public class ProjectInMemoryServiceUnitTest {
+
+    private AutoCloseable closeable;
+
+    @Mock
+    IProjectRepositoryInMemory projectRepositoryInMemory;
+
+    @InjectMocks
+    ProjectServiceInMemoryImpl projectService;
+
+    @BeforeEach
+    public void init() {
+        closeable = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    public void releaseMocks() throws Exception {
+        closeable.close();
+    }
+
+    @Test
+    public void whenSavingProject_thenOK() {
+        ProjectInMemory projectInMemory = new ProjectInMemory(2L, "name", LocalDate.now());
+        when(projectRepositoryInMemory.save(projectInMemory)).thenReturn(projectInMemory);
+
+        ProjectInMemory savedProjectInMemory = projectService.save(projectInMemory);
+
+        assertNotNull(savedProjectInMemory);
+    }
+}

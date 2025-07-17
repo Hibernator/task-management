@@ -3,22 +3,22 @@ package com.baeldung.ls.persistence.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Project {
+public class ProjectInMemory {
     private Long id;
     private String internalId;
     private String name;
     private LocalDate dateCreated;
 
-    public Project(Long id, String name, LocalDate dateCreated) {
+    public ProjectInMemory(Long id, String name, LocalDate dateCreated) {
         this.id = id;
         this.name = name;
         this.dateCreated = dateCreated;
     }
 
-    public Project(Project project) {
-        this.id = project.getId();
-        this.name = project.getName();
-        this.dateCreated = project.getDateCreated();
+    public ProjectInMemory(ProjectInMemory projectInMemory) {
+        this.id = projectInMemory.getId();
+        this.name = projectInMemory.getName();
+        this.dateCreated = projectInMemory.getDateCreated();
     }
 
     public Long getId() {
@@ -56,10 +56,10 @@ public class Project {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Project project = (Project) o;
-        return Objects.equals(id, project.id)
-                && Objects.equals(name, project.name)
-                && Objects.equals(dateCreated, project.dateCreated);
+        ProjectInMemory projectInMemory = (ProjectInMemory) o;
+        return Objects.equals(id, projectInMemory.id)
+                && Objects.equals(name, projectInMemory.name)
+                && Objects.equals(dateCreated, projectInMemory.dateCreated);
     }
 
     @Override
@@ -69,6 +69,6 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Project{" + "id=" + id + ", name='" + name + '\'' + ", dateCreated=" + dateCreated + '}';
+        return "ProjectInMemory{" + "id=" + id + ", name='" + name + '\'' + ", dateCreated=" + dateCreated + '}';
     }
 }

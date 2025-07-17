@@ -1,7 +1,7 @@
 package com.baeldung.ls;
 
-import com.baeldung.ls.persistence.model.Project;
-import com.baeldung.ls.service.IProjectService;
+import com.baeldung.ls.persistence.model.ProjectInMemory;
+import com.baeldung.ls.service.IProjectServiceInMemory;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
@@ -14,19 +14,19 @@ import java.time.LocalDate;
 @SpringJUnitConfig(classes = TestConfig.class)
 @ActiveProfiles("dev")
 // @DirtiesContext
-class ProjectServiceIntegrationTest {
+class ProjectInMemoryServiceIntegrationTest {
 
     @Autowired
-    private IProjectService projectService;
+    private IProjectServiceInMemory projectService;
 
     // Replaces the bean in the context with a mock
     //    @MockitoBean(name = "projectRepositoryImpl")
-    //    private IProjectRepository projectRepository;
+    //    private IProjectRepositoryInMemory projectRepository;
 
     @Test
     void whenSavingProject_thenOK() {
-        Project savedProject = projectService.save(new Project(2L, "name", LocalDate.now()));
+        ProjectInMemory savedProjectInMemory = projectService.save(new ProjectInMemory(2L, "name", LocalDate.now()));
 
-        MatcherAssert.assertThat(savedProject, CoreMatchers.is(CoreMatchers.notNullValue()));
+        MatcherAssert.assertThat(savedProjectInMemory, CoreMatchers.is(CoreMatchers.notNullValue()));
     }
 }

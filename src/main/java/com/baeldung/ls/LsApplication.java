@@ -1,7 +1,7 @@
 package com.baeldung.ls;
 
-import com.baeldung.ls.persistence.model.Project;
-import com.baeldung.ls.service.IProjectService;
+import com.baeldung.ls.persistence.model.ProjectInMemory;
+import com.baeldung.ls.service.IProjectServiceInMemory;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class LsApplication implements CommandLineRunner {
     private static final Logger LOG = LoggerFactory.getLogger(LsApplication.class);
 
     @Autowired
-    IProjectService projectService;
+    IProjectServiceInMemory projectService;
 
     @Value("${additional.info}")
     private String additionalInfo;
@@ -39,8 +39,8 @@ public class LsApplication implements CommandLineRunner {
 
         LOG.info("A different context created with id {}", differentContext.getId());
 
-        IProjectService projectService =
-                differentContext.getBean("projectServiceImplSetterInjection", IProjectService.class);
+        IProjectServiceInMemory projectService =
+                differentContext.getBean("projectServiceInMemoryImplSetterInjection", IProjectServiceInMemory.class);
         LOG.info("{}", projectService.findById(1L));
 
         LOG.info("Our context active before close: {}", differentContext.isActive());
@@ -50,8 +50,8 @@ public class LsApplication implements CommandLineRunner {
 
     @PostConstruct
     public void init() {
-        projectService.save(new Project(1L, "My First Project", LocalDate.now()));
-        Optional<Project> project = projectService.findById(1L);
+        projectService.save(new ProjectInMemory(1L, "My First ProjectInMemory", LocalDate.now()));
+        Optional<ProjectInMemory> project = projectService.findById(1L);
         project.ifPresent(System.out::println);
 
         LOG.info("Additional info: {}", additionalInfo);
@@ -59,8 +59,8 @@ public class LsApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        projectService.save(new Project(1L, "Project 1", LocalDate.now()));
-        Optional<Project> project = projectService.findById(1L);
-        LOG.info("Project {}", project.toString());
+        projectService.save(new ProjectInMemory(1L, "ProjectInMemory 1", LocalDate.now()));
+        Optional<ProjectInMemory> project = projectService.findById(1L);
+        LOG.info("ProjectInMemory {}", project.toString());
     }
 }

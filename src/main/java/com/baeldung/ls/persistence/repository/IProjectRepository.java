@@ -1,6 +1,16 @@
 package com.baeldung.ls.persistence.repository;
 
 import com.baeldung.ls.persistence.model.Project;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 
-public interface IProjectRepository extends CrudRepository<Project, Long> {}
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+public interface IProjectRepository extends ListCrudRepository<Project, Long> {
+
+    // Spring will automatically implement this method because the method name follows the naming convention
+    Optional<Project> findByName(String name);
+
+    List<Project> findByDateCreatedBetween(LocalDate start, LocalDate end);
+}

@@ -10,7 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("dev")
@@ -23,16 +27,42 @@ public class ProjectRepositoryIntegrationTest {
     public void whenSavingNewProject_thenSuccess() {
         var newProject = new Project(RandomStringUtils.secure().next(6), LocalDate.now());
 
-        MatcherAssert.assertThat(projectRepository.save(newProject), CoreMatchers.is(CoreMatchers.notNullValue()));
+        assertThat(projectRepository.save(newProject), is(CoreMatchers.notNullValue()));
     }
 
     @Test
-    public void givenProject_whenFindById_thenSuccess() {
+    public void givenProjectCreated_whenFindById_thenSuccess() {
         var newProject = new Project(RandomStringUtils.secure().next(6), LocalDate.now());
         projectRepository.save(newProject);
 
         Optional<Project> retrievedProject = projectRepository.findById(newProject.getId());
 
-        MatcherAssert.assertThat(retrievedProject, CoreMatchers.is(CoreMatchers.equalTo(Optional.of(newProject))));
+        assertThat(retrievedProject, is(equalTo(Optional.of(newProject))));
+    }
+
+    @Test
+    public void givenProjectCreated_whenFindByName_thenSuccess() {
+        var newProject = new Project(RandomStringUtils.secure().next(6), LocalDate.now());
+        projectRepository.save(newProject);
+
+        Optional<Project> retrievedProject = projectRepository.findByName(newProject.getName());
+
+        assertThat(retrievedProject, is(equalTo(Optional.of(newProject))));
+    }
+
+    @Test
+    public void givenProjectCreated_whenFindByDateCreatedBetween_thenSuccess() {
+        var oldProject =
+                new Project(RandomStringUtils.secure().next(6), LocalDate.now().minusYears(1));
+        projectRepository.save(oldProject);
+        var newProject = new Project(RandomStringUtils.secure().next(6), LocalDate.now());
+        projectRepository.save(newProject);
+        var newProject2 = new Project(RandomStringUtils.secure().next(6), LocalDate.now());
+        projectRepository.save(newProject2);
+
+        var retrievedProjects =
+                projectRepository.findByDateCreatedBetween(LocalDate.now().minusDays(1), LocalDate.now());
+
+        assertThat(retrievedProjects, hasItems(newProject, newProject2));
     }
 }

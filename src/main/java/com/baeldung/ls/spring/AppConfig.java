@@ -10,7 +10,10 @@ import org.springframework.core.env.Environment;
 
 @Configuration
 @Import({PersistenceConfig.class})
-@PropertySource("classpath:additional.properties")
+@PropertySources({
+    @PropertySource("classpath:additional.properties"),
+    @PropertySource("classpath:application.properties")
+})
 public class AppConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(AppConfig.class);

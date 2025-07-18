@@ -1,8 +1,8 @@
 package com.baeldung.ls;
 
-import com.baeldung.ls.persistence.model.ProjectInMemory;
-import com.baeldung.ls.persistence.repository.IProjectRepositoryInMemory;
-import com.baeldung.ls.service.impl.ProjectServiceInMemoryImpl;
+import com.baeldung.ls.persistence.model.Project;
+import com.baeldung.ls.persistence.repository.IProjectRepository;
+import com.baeldung.ls.service.impl.ProjectServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,15 +15,15 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
-public class ProjectInMemoryServiceUnitTest {
+public class ProjectServiceUnitTest {
 
     private AutoCloseable closeable;
 
     @Mock
-    IProjectRepositoryInMemory projectRepositoryInMemory;
+    IProjectRepository projectRepository;
 
     @InjectMocks
-    ProjectServiceInMemoryImpl projectService;
+    ProjectServiceImpl projectService;
 
     @BeforeEach
     public void init() {
@@ -37,11 +37,11 @@ public class ProjectInMemoryServiceUnitTest {
 
     @Test
     public void whenSavingProject_thenOK() {
-        ProjectInMemory projectInMemory = new ProjectInMemory(2L, "name", LocalDate.now());
-        when(projectRepositoryInMemory.save(projectInMemory)).thenReturn(projectInMemory);
+        Project project = new Project("name", LocalDate.now());
+        when(projectRepository.save(project)).thenReturn(project);
 
-        ProjectInMemory savedProjectInMemory = projectService.save(projectInMemory);
+        Project savedProject = projectService.save(project);
 
-        assertNotNull(savedProjectInMemory);
+        assertNotNull(savedProject);
     }
 }

@@ -14,13 +14,13 @@ public class MyBeanPostProcessor implements BeanPostProcessor, Ordered {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        LOG.info("Before initializing the bean {}", beanName);
+        //        LOG.info("Before initializing the bean {}", beanName);
         return bean;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        LOG.info("After initializing the bean {}", beanName);
+        //        LOG.info("After initializing the bean {}", beanName);
         return bean;
     }
 

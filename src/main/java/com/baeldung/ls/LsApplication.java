@@ -51,17 +51,17 @@ public class LsApplication implements CommandLineRunner {
 
     @PostConstruct
     public void init() {
-        projectService.save(new Project("My First Project", LocalDate.now()));
-        Optional<Project> project = projectService.findByName("My First Project");
-        project.ifPresent(System.out::println);
+        //        projectService.save(new Project("My First Project", LocalDate.now()));
+        //        Optional<Project> project = projectService.findByName("My First Project");
+        //        project.ifPresent(System.out::println);
 
         LOG.info("Additional info: {}", additionalInfo);
     }
 
     @Override
     public void run(String... args) throws Exception {
-        projectService.save(new Project("Project 1", LocalDate.now()));
-        Optional<Project> project = projectService.findByName("Project 1");
-        LOG.info("Project {}", project.toString());
+        //        projectService.save(new Project("Project 1", LocalDate.now()));
+        //        Optional<Project> project = projectService.findByName("Project 1");
+        //        LOG.info("Project {}", project.toString());
     }
 }

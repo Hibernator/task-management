@@ -1,22 +1,27 @@
 package com.baeldung.ls.spring;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class PersistenceConfig {
 
-    //    @Bean
-    //    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    //    public ProjectRepositoryInMemoryImpl2 projectRepositoryInMemory2() {
-    //        return new ProjectRepositoryInMemoryImpl2();
-    //    }
+    @Bean
+    public DataSource dataSource() {
+        //        return new EmbeddedDatabaseBuilder()
+        //                .setType(EmbeddedDatabaseType.H2)
+        //                .setName("learn-spring-db")
+        //                .build();
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-    // Not needed because Spring data starter automatically creates data source when H2 is on classpath
-    //    @Bean
-    //    public DataSource dataSource(){
-    //        return new EmbeddedDatabaseBuilder()
-    //                .setType(EmbeddedDatabaseType.H2)
-    //                .setName("learn-spring-db")
-    //                .build();
-    //    }
+        dataSource.setDriverClassName("org.h2.Driver");
+        dataSource.setUrl("jdbc:h2:mem:learn-spring-db;DB_CLOSE_DELAY=-1");
+        dataSource.setUsername("username");
+        dataSource.setPassword("password");
+
+        return dataSource;
+    }
 }

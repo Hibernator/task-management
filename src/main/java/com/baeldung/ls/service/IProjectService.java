@@ -8,7 +8,5 @@ public interface IProjectService {
 
     Optional<Project> findById(Long id);
 
-    Optional<Project> findByName(String name);
-
     Project save(Project project);
 }

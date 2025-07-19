@@ -27,11 +27,6 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public Optional<Project> findByName(String name) {
-        return projectRepository.findByName(name);
-    }
-
-    @Override
     public Project save(Project project) {
         LOG.debug("ProjectService >> Saving Project {}", project);
         return projectRepository.save(project);

@@ -2,6 +2,7 @@ package com.baeldung.ls;
 
 import com.baeldung.ls.persistence.model.Project;
 import com.baeldung.ls.service.IProjectService;
+import com.baeldung.ls.service.ITaskService;
 import com.baeldung.ls.service.impl.ProjectServiceImpl;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -24,6 +25,9 @@ public class LsApplication implements CommandLineRunner {
 
     @Autowired
     IProjectService projectService;
+
+    @Autowired
+    ITaskService taskService;
 
     @Value("${additional.info}")
     private String additionalInfo;
@@ -56,12 +60,24 @@ public class LsApplication implements CommandLineRunner {
         project.ifPresent(System.out::println);
 
         LOG.info("Additional info: {}", additionalInfo);
+
+        try {
+            projectService.createProjectWithTasks();
+        } catch (Exception e) {
+            LOG.error("Error occurred in creating project with tasks", e);
+        }
+
+        LOG.info("Fetching all Projects");
+        projectService.findAll().forEach(p -> LOG.info(p.toString()));
+
+        LOG.info("Fetching all tasks");
+        taskService.findAll().forEach(t -> LOG.info(t.toString()));
     }
 
     @Override
     public void run(String... args) throws Exception {
         projectService.save(new Project("Project 1", LocalDate.now()));
-        Optional<Project> project = projectService.findByName("Project 1");
+        Optional<Project> project = projectService.findByName("Project 2");
         LOG.info("Project {}", project.toString());
     }
 }

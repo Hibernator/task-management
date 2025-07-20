@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -24,43 +25,27 @@ public class LsApplication implements CommandLineRunner {
     @Autowired
     IProjectService projectService;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @Value("${additional.info}")
     private String additionalInfo;
 
     public static void main(String[] args) {
         SpringApplication.run(LsApplication.class, args);
-
-        // Not associated with the main app
-        // Higher-level beans have to be scanned later
-        System.setProperty("spring.profiles.active", "dev");
-        AnnotationConfigApplicationContext differentContext = new AnnotationConfigApplicationContext(
-                "com.baeldung.ls.persistence.repository", "com.baeldung.ls.spring");
-        differentContext.scan("com.baeldung.ls.service");
-
-        LOG.info("A different context created with id {}", differentContext.getId());
-
-        //        IProjectService projectService = differentContext.getBean("projectServiceImpl",
-        // ProjectServiceImpl.class);
-        //        LOG.info("{}", projectService.findById(1L));
-
-        LOG.info("Our context active before close: {}", differentContext.isActive());
-        differentContext.close();
-        LOG.info("Our context active after close: {}", differentContext.isActive());
     }
 
     @PostConstruct
     public void init() {
-        projectService.save(new Project("My First Project", LocalDate.now()));
-        Optional<Project> project = projectService.findById(1L);
-        project.ifPresent(System.out::println);
-
-        LOG.info("Additional info: {}", additionalInfo);
+        //        projectService.save(new Project("My First Project", LocalDate.now()));
+        //        Optional<Project> project = projectService.findById(1L);
+        //        project.ifPresent(System.out::println);
+        //
+        //        LOG.info("Additional info: {}", additionalInfo);
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        projectService.save(new Project("Project 1", LocalDate.now()));
-        Optional<Project> project = projectService.findById(2L);
-        LOG.info("Project {}", project.toString());
+    public void run(String... args) {
+        jdbcTemplate.execute("CREATE TABLE project(id SERIAL, name VARCHAR(255), date_created DATE)");
     }
 }

@@ -1,37 +1,34 @@
 package com.baeldung.ls.persistence.model;
 
-import jakarta.persistence.*;
-
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
+import java.util.Random;
 
-@Entity
 public class Project {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
+
     private LocalDate dateCreated;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id")
-    private Set<Task> tasks;
-
-    public Project() {}
-
-    public Project(String name, LocalDate dateCreated) {
+    public Project(Long id, String name, LocalDate dateCreated) {
+        if (Objects.isNull(id)) {
+            id = new Random().nextLong();
+        }
+        this.id = id;
         this.name = name;
         this.dateCreated = dateCreated;
-        this.tasks = new HashSet<>();
+    }
+
+    public Project(String name, LocalDate dateCreated) {
+        this.id = new Random().nextLong();
+        this.name = name;
+        this.dateCreated = dateCreated;
     }
 
     public Project(Project project) {
-        this(project.getName(), project.getDateCreated());
-        this.tasks = new HashSet<>(project.getTasks());
+        this(project.getId(), project.getName(), project.getDateCreated());
     }
 
     public Long getId() {
@@ -58,31 +55,36 @@ public class Project {
         this.dateCreated = dateCreated;
     }
 
-    public Set<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Project project = (Project) o;
-        return Objects.equals(id, project.id)
-                && Objects.equals(name, project.name)
-                && Objects.equals(dateCreated, project.dateCreated)
-                && Objects.equals(tasks, project.tasks);
-    }
-
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, dateCreated, tasks);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Project other = (Project) obj;
+        if (dateCreated == null) {
+            if (other.dateCreated != null) return false;
+        } else if (!dateCreated.equals(other.dateCreated)) return false;
+        if (id == null) {
+            if (other.id != null) return false;
+        } else if (!id.equals(other.id)) return false;
+        if (name == null) {
+            if (other.name != null) return false;
+        } else if (!name.equals(other.name)) return false;
+        return true;
     }
 
     @Override
     public String toString() {
-        return "Project{" + "id=" + id + ", name='" + name + '\'' + ", tasks=" + tasks + '}';
+        return "Project [id=" + id + ", name=" + name + "] \n";
     }
 }

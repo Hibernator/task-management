@@ -22,7 +22,8 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 
-@SpringBootTest
+// By default, webEnvironment is set to SpringBootTest.WebEnvironment.MOCK but here we don't need it at all
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @ActiveProfiles("dev")
 public class ProjectRepositoryIntegrationTest {
 

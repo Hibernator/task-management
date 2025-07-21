@@ -1,10 +1,15 @@
 package com.baeldung.ls.web.controller;
 
 import com.baeldung.ls.persistence.model.Project;
+import com.baeldung.ls.persistence.model.Task;
 import com.baeldung.ls.service.IProjectService;
+import com.baeldung.ls.web.dto.ProjectDto;
+import com.baeldung.ls.web.dto.TaskDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/projects")
@@ -18,12 +23,50 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/{id}")
-    public Project findOne(@PathVariable Long id) {
-        return projectService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public ProjectDto findOne(@PathVariable Long id) {
+        Project project =
+                projectService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return convertProjectToDto(project);
     }
 
     @PostMapping
-    public void create(@RequestBody Project project) {
-        projectService.save(project);
+    public void create(@RequestBody ProjectDto project) {
+        projectService.save(convertProjectToEntity(project));
+    }
+
+    private ProjectDto convertProjectToDto(Project entity) {
+        return new ProjectDto(
+                entity.getId(),
+                entity.getName(),
+                entity.getDateCreated(),
+                entity.getTasks().stream().map(this::convertTaskToDto).collect(Collectors.toSet()));
+    }
+
+    private Project convertProjectToEntity(ProjectDto dto) {
+        Project project = new Project(dto.name(), dto.dateCreated());
+        if (dto.id() != null) {
+            project.setId(dto.id());
+        }
+        project.setTasks(dto.tasks().stream().map(this::convertTaskToEntity).collect(Collectors.toSet()));
+        return project;
+    }
+
+    private TaskDto convertTaskToDto(Task task) {
+        return new TaskDto(
+                task.getId(),
+                task.getName(),
+                task.getDescription(),
+                task.getDateCreated(),
+                task.getDueDate(),
+                task.getStatus());
+    }
+
+    private Task convertTaskToEntity(TaskDto dto) {
+        Task task = new Task(dto.name(), dto.description(), dto.dateCreated(), dto.dueDate());
+        if (dto.id() != null) {
+            task.setId(dto.id());
+        }
+        task.setStatus(dto.status());
+        return task;
     }
 }

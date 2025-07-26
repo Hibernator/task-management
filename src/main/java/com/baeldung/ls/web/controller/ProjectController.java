@@ -29,7 +29,8 @@ public class ProjectController {
         return convertProjectToDto(project);
     }
 
-    @PostMapping
+    // Only resolved if the client accepts JSON as response
+    @PostMapping(headers = "accept=application/json")
     public void create(@RequestBody ProjectDto project) {
         projectService.save(convertProjectToEntity(project));
     }

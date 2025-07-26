@@ -52,7 +52,8 @@ public class ProjectRepositoryIntegrationTest {
         var newProject = new Project(RandomStringUtils.secure().next(6), LocalDate.now());
         projectRepository.save(newProject);
 
-        Optional<Project> retrievedProject = projectRepository.findByName(newProject.getName());
+        Optional<Project> retrievedProject = projectRepository.findByNameContaining(newProject.getName()).stream()
+                .findFirst();
 
         assertThat(retrievedProject, is(equalTo(Optional.of(newProject))));
     }

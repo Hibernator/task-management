@@ -8,6 +8,7 @@ import com.baeldung.ls.service.IProjectService;
 import com.baeldung.ls.service.ITaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,5 +71,12 @@ public class ProjectServiceImpl implements IProjectService {
         newProject.setTasks(tasks);
 
         save(newProject);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        findById(id)
+                .orElseThrow(() -> new EmptyResultDataAccessException("Project with id " + id + " does not exist", 1));
+        projectRepository.deleteById(id);
     }
 }

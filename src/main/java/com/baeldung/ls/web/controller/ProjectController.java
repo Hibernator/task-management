@@ -26,8 +26,9 @@ public class ProjectController {
     // No need for @ResponseBody, because @RestController already includes it
     @GetMapping(value = "/{id}")
     public ProjectDto findOne(@PathVariable Long id) {
-        Project project =
-                projectService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Project project = projectService
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
         return convertProjectToDto(project);
     }
 
@@ -43,6 +44,12 @@ public class ProjectController {
         return projectService.findByName(name).stream()
                 .map(this::convertProjectToDto)
                 .collect(Collectors.toList());
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProject(@PathVariable("id") Long id) {
+        projectService.deleteById(id);
     }
 
     private ProjectDto convertProjectToDto(Project entity) {

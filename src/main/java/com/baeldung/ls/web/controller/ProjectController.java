@@ -23,8 +23,12 @@ public class ProjectController {
     }
 
     // No need for @ResponseBody, because @RestController already includes it
-    @GetMapping(value = "/{id}")
-    public ProjectDto findOne(@PathVariable Long id) {
+    @GetMapping(value = "/{category}-{subcategoryId:\\d\\d}/{id}")
+    // Value in @PathVariable is not neccessary if the path parameter name matches the variable name
+    public ProjectDto findOne(
+            @PathVariable("id") Long id,
+            @PathVariable(required = false) String category,
+            @PathVariable String subcategoryId) {
         Project project =
                 projectService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return convertProjectToDto(project);

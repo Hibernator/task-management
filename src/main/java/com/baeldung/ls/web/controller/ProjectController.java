@@ -22,6 +22,7 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
+    // No need for @ResponseBody, because @RestController already includes it
     @GetMapping(value = "/{id}")
     public ProjectDto findOne(@PathVariable Long id) {
         Project project =
@@ -31,6 +32,7 @@ public class ProjectController {
 
     // Only resolved if the client accepts JSON as response
     @PostMapping(headers = "accept=application/json")
+    @ResponseStatus(HttpStatus.CREATED) // Overrides 200 with 201. Can also be used on Exception classes
     public void create(@RequestBody ProjectDto project) {
         projectService.save(convertProjectToEntity(project));
     }

@@ -56,7 +56,8 @@ public class LsApplication implements CommandLineRunner {
     @PostConstruct
     public void init() {
         projectService.save(new Project("My First Project", LocalDate.now()));
-        Optional<Project> project = projectService.findByName("My First Project");
+        Optional<Project> project =
+                projectService.findByName("My First Project").stream().findFirst();
         project.ifPresent(System.out::println);
 
         LOG.info("Additional info: {}", additionalInfo);
@@ -77,7 +78,8 @@ public class LsApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         projectService.save(new Project("Project 1", LocalDate.now()));
-        Optional<Project> project = projectService.findByName("Project 2");
+        Optional<Project> project =
+                projectService.findByName("Project 2").stream().findFirst();
         LOG.info("Project {}", project.toString());
     }
 }

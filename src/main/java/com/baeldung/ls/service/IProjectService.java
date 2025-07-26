@@ -10,7 +10,7 @@ public interface IProjectService {
 
     Optional<Project> findById(Long id);
 
-    Optional<Project> findByName(String name);
+    List<Project> findByName(String name);
 
     List<Project> findAll();
 

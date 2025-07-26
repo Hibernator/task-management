@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,6 +36,13 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.CREATED) // Overrides 200 with 201. Can also be used on Exception classes
     public void create(@RequestBody ProjectDto project) {
         projectService.save(convertProjectToEntity(project));
+    }
+
+    @GetMapping
+    public List<ProjectDto> findProjects(@RequestParam(value = "name", required = true) String name) {
+        return projectService.findByName(name).stream()
+                .map(this::convertProjectToDto)
+                .collect(Collectors.toList());
     }
 
     private ProjectDto convertProjectToDto(Project entity) {

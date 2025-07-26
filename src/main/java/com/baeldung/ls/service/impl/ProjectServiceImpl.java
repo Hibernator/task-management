@@ -42,8 +42,8 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public Optional<Project> findByName(String name) {
-        return projectRepository.findByName(name);
+    public List<Project> findByName(String name) {
+        return projectRepository.findByNameContaining(name);
     }
 
     @Override

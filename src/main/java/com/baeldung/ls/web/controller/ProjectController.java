@@ -1,10 +1,12 @@
 package com.baeldung.ls.web.controller;
 
+import com.baeldung.ls.events.ProjectCreatedEvent;
 import com.baeldung.ls.persistence.model.Project;
 import com.baeldung.ls.persistence.model.Task;
 import com.baeldung.ls.service.IProjectService;
 import com.baeldung.ls.web.dto.ProjectDto;
 import com.baeldung.ls.web.dto.TaskDto;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,9 +20,12 @@ public class ProjectController {
 
     private IProjectService projectService;
 
-    public ProjectController(IProjectService projectService) {
+    private ApplicationEventPublisher publisher;
+
+    public ProjectController(IProjectService projectService, ApplicationEventPublisher publisher) {
         super();
         this.projectService = projectService;
+        this.publisher = publisher;
     }
 
     // No need for @ResponseBody, because @RestController already includes it
@@ -36,7 +41,8 @@ public class ProjectController {
     @PostMapping(headers = "accept=application/json")
     @ResponseStatus(HttpStatus.CREATED) // Overrides 200 with 201. Can also be used on Exception classes
     public void create(@RequestBody ProjectDto project) {
-        projectService.save(convertProjectToEntity(project));
+        Project newProject = projectService.save(convertProjectToEntity(project));
+        publisher.publishEvent(new ProjectCreatedEvent(newProject.getId()));
     }
 
     @GetMapping

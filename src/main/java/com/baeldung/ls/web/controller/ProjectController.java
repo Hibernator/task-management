@@ -28,6 +28,11 @@ public class ProjectController {
         this.publisher = publisher;
     }
 
+    @GetMapping(value = "/all", headers = "accept=application/json")
+    public List<ProjectDto> getAllProjects() {
+        return projectService.findAll().stream().map(this::convertProjectToDto).toList();
+    }
+
     // No need for @ResponseBody, because @RestController already includes it
     @GetMapping(value = "/{id}")
     public ProjectDto findOne(@PathVariable Long id) {

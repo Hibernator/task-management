@@ -57,6 +57,7 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
+    @Transactional
     public Project save(Project project) {
         LOG.debug("ProjectService >> Saving Project {}", project);
         return projectRepository.save(project);

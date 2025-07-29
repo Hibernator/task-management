@@ -2,7 +2,8 @@ package com.baeldung.ls.spring;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -14,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity // Not necessary for Spring Boot
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true) // enables @Secured and @RoleAllowed annotations
 public class WebSecurityConfig {
 
     @Bean
@@ -21,9 +23,11 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login*", "/*css/**")
                         .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/projects")
+                        .hasRole("MANAGER")
                         .anyRequest()
                         .authenticated())
-                .formLogin(Customizer.withDefaults());
+                .formLogin((form) -> form.permitAll().defaultSuccessUrl("/projects"));
         return http.build();
     }
 
@@ -33,7 +37,12 @@ public class WebSecurityConfig {
                 .password(passwordEncoder.encode("password"))
                 .roles("USER")
                 .build();
-        return new InMemoryUserDetailsManager(user);
+        UserDetails manager = User.withUsername("manager")
+                .password(passwordEncoder.encode("password"))
+                .roles("MANAGER")
+                .build();
+
+        return new InMemoryUserDetailsManager(user, manager);
     }
 
     @Bean

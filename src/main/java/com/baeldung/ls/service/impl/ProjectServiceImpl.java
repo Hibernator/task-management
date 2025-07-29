@@ -6,9 +6,13 @@ import com.baeldung.ls.persistence.model.Task;
 import com.baeldung.ls.persistence.repository.IProjectRepository;
 import com.baeldung.ls.service.IProjectService;
 import com.baeldung.ls.service.ITaskService;
+import jakarta.annotation.security.RolesAllowed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +42,11 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
+    //    @PreAuthorize("hasRole('MANAGER')") // authorization directly on method, with SpEL expression
+    //    @Secured("MANAGER") // alternative way to secure method, doesn't support SpEL
+    //    @RolesAllowed("MANAGER") // JSR-250 equivalent of @Secured annotation, requires
+    //    @PostAuthorize("hasRole('MANAGER')") // SpEL expression to evaluate after method execution, can change the
+    // result
     public List<Project> findAll() {
         return projectRepository.findAll();
     }

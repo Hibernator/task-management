@@ -6,6 +6,7 @@ import com.baeldung.ls.service.ITaskService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // Now, only the web layer is loaded, which is faster and more focused for controller tests
 // This is useful for testing controllers without starting the entire application context
 @WebMvcTest
+@AutoConfigureMockMvc(addFilters = false)
 // Since only the web layer is loaded, we need to mock the services required by the controller
 @MockitoBean(types = {ITaskService.class})
 public class ProjectControllerIntegrationTest {
